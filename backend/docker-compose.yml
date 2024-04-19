@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  mongod:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secretpass
+    deploy:
+      replicas: 1
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db  # Mount the persistent volume
+      
+  # backend:
+  #   container_name: express-app
+  #   build: .
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #   env_file:
+  #     - ".env"
+  #   depends_on:
+  #     - "mongod"
+
+volumes:
+  mongo_data:  # Define the persistent volume
+    driver: local
